@@ -1,0 +1,234 @@
+/*Переменные и т.д.*/
+@mixin font-size($font-size-syntax) {
+  font-size: calc($font-size-syntax / 14) + rem;
+}
+@mixin green-btn() {
+  background: #2d635e;
+  border-radius: 5px;
+  color: #ffffff;
+  @include font-size(16);
+}
+
+$max-width: 1440;
+$max-width-container: 1200;
+@mixin adaptive-value($property, $desktop-size, $mobile-size, $type) {
+  $add-size: $desktop-size - $mobile-size;
+  @if $type == 1 {
+    #{$property}: $desktop-size + px;
+    @media (max-width: #{$max-width-container + px}) {
+      #{$property}: calc(
+        #{$mobile-size + px} + #{$add-size} *
+          ((100vw - 320px) / (#{$max-width-container - 320}))
+      );
+    }
+  } @else if $type == 2 {
+    @media (max-width: #{$max-width-container + px} ) {
+      #{$property}: calc(
+        #{$mobile-size + px} + #{$add-size} *
+          ((100vw - 320px) / (#{$max-width - 320}))
+      );
+    }
+  } @else {
+    #{$property}: calc(
+      #{$mobile-size +
+        px} +
+        #{$add-size} *
+        ((100vw - 320px) / (#{$max-width - 320}))
+    );
+  }
+}
+
+/*Шрифты*/
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Alegreya+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap");
+
+/*Обнуление*/
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+*,
+*:before,
+*:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+:focus,
+:active {
+  outline: none;
+}
+a:focus,
+a:active {
+  outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+  display: block;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-size: 100%;
+  line-height: 1;
+  @include adaptive-value("font-size", 14, 14, 1);
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+input,
+button,
+textarea {
+  font-family: inherit;
+}
+
+input::-ms-clear {
+  display: none;
+}
+button {
+  cursor: pointer;
+}
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+a,
+a:visited {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+}
+ul li {
+  list-style: none;
+}
+img {
+  vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: 400;
+}
+
+/*Модификаторы*/
+.grid {
+  max-width: 1230px;
+  margin: 0 auto;
+  padding: 0 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(72px, auto));
+  @include adaptive-value("column-gap", 30, 10, 1)
+}
+
+.text {
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: 700;
+  @include adaptive-value("font-size", 36, 22, 1);
+  &__desc {
+    font-family: "Alegreya Sans", sans-serif;
+    font-weight: 400;
+    @include font-size(19);
+  }
+  &__decor {
+    font-family: "Cedarville Cursive", sans-serif;
+    font-weight: 400;
+    @include font-size(28);
+  }
+  &__footer {
+    font-family: "Josefin Sans", sans-serif;
+    font-weight: 400;
+    @include font-size(14);
+  }
+}
+.green-btn {
+  @include green-btn();
+}
+/*Основные стили*/
+
+.wrapper{
+  margin: 0 auto;
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: 115px auto 40px;
+  grid-template-areas: 
+  "header"
+  "main"
+  "footer"
+  ;
+}
+
+.main{
+  grid-area: main;
+}
+
+.header {
+  grid-area: header;
+  max-width: 1200px;
+  min-height: 100%;
+  align-items: center;
+
+  &__left {
+    grid-column: 1 / span 3;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  &__logo {
+    color: #000000;
+    @include font-size(32);
+  }
+
+  &__right {
+    grid-column: 4 / span 9;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  &__menu {
+    grid-template-rows: 1fr;
+  }
+
+  &__list {
+  }
+
+  &__list-item {
+    display: inline;
+    color: #000000;
+    @include font-size(16);
+    &:not(:last-child){
+      @include adaptive-value("margin-right", 90, 50, 1)
+    }
+  }
+
+  &__btn {
+    @include adaptive-value("padding-top", 15, 5, 1);
+    @include adaptive-value("padding-right", 30, 20, 1);
+    @include adaptive-value("padding-bottom", 15, 5, 1);
+    @include adaptive-value("padding-left", 30, 20, 1);
+    @include adaptive-value("margin-left", 55, 15, 1)
+  }
+}
+.grid {
+}
+.text {
+
+  &__decor {
+  }
+}
+.green-btn {
+}
